@@ -1,0 +1,18 @@
+﻿# Planilhas: bloqueadas em TODO o repositório...
+*.xlsx
+*.xlsm
+*.xls
+*.csv
+# ...menos as inventadas, na pasta de exemplo
+!dados_exemplo/*.xlsx
+!dados_exemplo/*.csv
+
+# Segredos: nunca sobem
+.env
+.chave_disfarce
+
+# Arquivos temporários (Excel aberto, Python)
+~$*
+__pycache__/
+.pytest_cache/
+.venv/
