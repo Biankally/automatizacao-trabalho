@@ -1,0 +1,9 @@
+[project]
+name = "automatizacao-trabalho"
+version = "0.0.1"
+description = "Agente que cria scripts de automacao de planilhas"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

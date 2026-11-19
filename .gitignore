@@ -1,18 +1,23 @@
-﻿# Planilhas: bloqueadas em TODO o repositório...
-*.xlsx
-*.xlsm
-*.xls
-*.csv
-# ...menos as inventadas, na pasta de exemplo
-!dados_exemplo/*.xlsx
-!dados_exemplo/*.csv
-
-# Segredos: nunca sobem
+# Segredos
 .env
-.chave_disfarce
 
-# Arquivos temporários (Excel aberto, Python)
+# Planilhas: so as inventadas, em dados_exemplo/
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+!dados_exemplo/**/*.xlsx
+!dados_exemplo/**/*.csv
 ~$*
+
+# Resultados locais
+saida/
+
+# Python
 __pycache__/
 .pytest_cache/
 .venv/
+*.pyc
+
+# Arquivo de chave do disfarce
+.chave_disfarce
