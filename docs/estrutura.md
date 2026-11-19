@@ -18,6 +18,10 @@ Nov 19, 2026 · @Bianca · versão para a entrega de 25/11
 | experimento com 8 pedidos, 1 rodada por modo | 20 pedidos com 3 rodadas |
 | decisões documentadas no Documento de Arquitetura | um arquivo por decisão em `docs/decisoes/` |
 
+**Mudanças de 19/11, depois da validação:** a especificação das seções 4 e 5 foi executada de ponta a ponta numa implementação de referência antes de ser passada ao grupo. Disso saíram: o formato exato do `CONFIG` (`Ficha.para_config`), o modelo de script que acha a raiz do projeto sozinho, o executor com `sys.executable`, a leitura de JSON "sujo" do LLM, a nova tentativa no limite do Groq, o script **parecido** usado como exemplo na aula e o Revisor com testes **básico** e **borda** (a sabotagem fica nos testes do núcleo).
+
+**Extra (só se o esqueleto de sexta fechar no horário):** uma janela simples (`tkinter`, que já vem com o Python) no modelo de script, para o usuário escolher as planilhas e clicar em "Rodar" sem usar o terminal.
+
 **Como ler.**
 
 - **Antes de escrever código:** seções 1, 2 e 6.
@@ -213,8 +217,8 @@ O que não aparece na interface é detalhe interno: pode mudar sem avisar ningu�
 ### 4.2 `src/contratos/ficha.py`
 
 - **Ficha técnica:** camada 6 · dono A · entrega 19/11 (primeiro arquivo do projeto).
-- **Propósito:** definir o que é uma ficha e se ela está completa.
-- **Importa:** só a biblioteca padrão (`dataclasses`, `json`, `typing`).
+- **Propósito:** definir o que é uma ficha, se ela está completa e como ela vira a configuração do script.
+- **Importa:** só a biblioteca padrão (`dataclasses`, `json`, `pathlib`, `typing`).
 
 ```python
 @dataclass
@@ -228,98 +232,117 @@ class PlanilhaDaFicha:
 class CasosProblema:
     chave_repetida: Literal["nao_alterar", "primeiro"] = "nao_alterar"
     ignorar_acento_e_caixa: bool = False
-    zeros_na_chave: bool = False
+    zeros_na_chave: bool = False              # True: "0048213" e "48213" são a mesma chave
 
 @dataclass
 class Ficha:
     pedido: str                               # texto original da pessoa
-    planilhas: list[PlanilhaDaFicha]          # 1. quais planilhas
-    chave: dict[str, str]                     # 2. rótulo -> coluna-chave
-    acao: Literal["completar", "trocar"]      # 3. o que fazer
+    planilhas: list[PlanilhaDaFicha]          # 1. exatamente uma "origem" e um "destino"
+    chave: dict[str, str]                     # 2. {"origem": coluna, "destino": coluna}
+    acao: str                                 # 3. "completar" ou "trocar"
     colunas: dict[str, str]                   # 4. coluna da origem -> coluna do destino
-    casos_problema: CasosProblema             # 5. como tratar os casos-problema
+    casos_problema: CasosProblema             # 5.
     saida: str                                # 6. arquivo de saída
     suposicoes: list[str] = field(default_factory=list)
     confirmada: bool = False
 
     def problemas(self) -> list[str]          # lista vazia = ficha válida
     def perguntas(self) -> list[str]          # o que perguntar à pessoa
+    def para_config(self, arquivos: dict[str, str] | None = None,
+                    saida: str | None = None) -> dict   # o CONFIG do script (formato abaixo)
     def para_json(self) -> str
     @classmethod
-    def de_json(cls, texto: str) -> "Ficha"   # lança FichaInvalida se o JSON não servir
+    def de_json(cls, texto: str) -> "Ficha"   # lança FichaInvalida; campos ausentes: pedido="", suposicoes=[], confirmada=False
 
 class FichaInvalida(Exception): ...
 ```
 
-- **Pronto quando:** `test_contrato_ficha.py` cobre ficha válida, cada uma das 6 respostas faltando, ação inválida, JSON quebrado e ida e volta (`de_json(para_json(f)) == f`).
+**Formato do CONFIG** (devolvido por `para_config`, usado pelo script e pelos testes do Revisor). `arquivos` troca o caminho de uma planilha pelo rótulo e `saida` troca o arquivo de saída; o relatório é sempre o nome da saída + `_RELATORIO.xlsx`.
+
+```python
+{
+  "planilhas": {
+    "origem":  {"arquivo": "rh.xlsx",       "aba": "Plan1", "linha_cabecalho": 1},
+    "destino": {"arquivo": "cadastro.xlsx", "aba": "Plan1", "linha_cabecalho": 1},
+  },
+  "chave": {"origem": "Matricula", "destino": "Matricula"},
+  "acao": "completar",
+  "colunas": {"Email": "Email"},
+  "casos_problema": {"chave_repetida": "nao_alterar", "ignorar_acento_e_caixa": False, "zeros_na_chave": True},
+  "saida": "saida/cadastro_completado.xlsx",
+  "relatorio": "saida/cadastro_completado_RELATORIO.xlsx",
+}
+```
+
+- **`problemas()` acusa:** rótulos diferentes de exatamente `origem` e `destino`; planilha sem arquivo ou aba; chave sem as duas colunas; ação fora de `completar`/`trocar`; nenhuma coluna; coluna-chave do destino entre as colunas alteradas; `chave_repetida` inválida; saída vazia.
+- **Pronto quando:** `test_contrato_ficha.py` cobre ficha válida, cada item acima, JSON quebrado, ida e volta (`de_json(para_json(f)) == f`) e o formato exato do `para_config()`.
 
 ### 4.3 `src/nucleo/`
 
 **`nucleo.py` ★**
 
 - **Ficha técnica:** camada 5 · dono A · entrega 22/11.
-- **Propósito:** executar os 6 passos (ler, padronizar, casar, julgar, agir, relatar) e conferir o resultado.
-- **Interface:** a que já existe: `ler_aba`, `padronizar`, `chave_de`, `indexar`, `Registro`, `CopiaSegura`, `Achado`, `conferir_completude`, `conferir_exatidao`, `conferir_rastro`, `gravar_relatorio`, `finalizar`.
-- **Mudanças:** retirar nomes do trabalho dos exemplos e comentários. A classe `Achado` continua aqui nesta versão.
-- **Importa:** pandas, openpyxl, biblioteca padrão.
-- **Pronto quando:** os testes atuais e as sabotagens passam, e uma busca por nomes do trabalho no arquivo não acha nada.
+- **Propósito:** executar os passos (ler, padronizar, casar, julgar, agir, relatar) e conferir o resultado.
+- **Interface:** a que já existe: `ler_aba`, `padronizar`, `chave_de`, `indexar`, `Opcoes`, `Tabela`, `Registro`, `CopiaSegura`, `Achado`, `conferir_completude`, `conferir_exatidao`, `conferir_rastro`, `gravar_relatorio`, `finalizar`.
+- **Mudanças:** retirar nomes do trabalho; tirar os `print` de `finalizar()` (o texto passa a ser mostrado pelo `Resumo` do catálogo); todo `open()` com `encoding="utf-8"`. A classe `Achado` continua aqui nesta versão.
+- **Pronto quando:** os testes atuais e as sabotagens passam, e uma busca por nomes do trabalho não acha nada.
 
 **`disfarce.py` ★**
 
 - **Ficha técnica:** camada 5 · dono A · entrega 21/11.
-- **Propósito:** descrever uma planilha sem revelar valores (vem do `disfarcar_planilha.py`).
+- **Propósito:** descrever uma planilha sem revelar valores.
 
 ```python
 @dataclass
 class ColunaRaioX:
-    nome: str; tipo: str; pct_vazios: float; exemplo: str   # exemplo inventado
-
+    nome: str; tipo: str; pct_vazios: float; exemplo: str   # exemplo INVENTADO (mesmo formato, outro conteúdo)
 @dataclass
 class RaioX:
     arquivo: str; aba: str; total_linhas: int; colunas: list[ColunaRaioX]
-    def para_texto(self) -> str        # o formato que vai no prompt
-
+    def para_texto(self) -> str        # o texto que vai no prompt
 def raio_x(arquivo: str, aba: str, linha_cabecalho: int = 1) -> RaioX
 def amostra_disfarcada(arquivo: str, aba: str, linha_cabecalho: int = 1,
                        n: int = 30, semente: int = 42) -> list[dict]
 ```
 
-- **Importa:** nucleo.
-- **Pronto quando:** os 15 testes atuais passam e um teste novo confirma que nenhum valor da planilha original aparece em `para_texto()` nem na amostra.
+- **Pronto quando:** nenhum valor da planilha original aparece em `para_texto()` nem na amostra (teste com valores conhecidos).
 
 **`catalogo.py`**
 
-- **Ficha técnica:** camada 5 · dono A · entrega 21/11 (2 funções em 20/11, para o esqueleto).
-- **Propósito:** expor ao LLM as funções que ele pode combinar, cada uma com descrição e exemplo.
+- **Ficha técnica:** camada 5 · dono A · entrega 21/11 (`ler_planilha` e `finalizar` em 20/11, para o esqueleto).
+- **Propósito:** as funções que o LLM pode combinar, cada uma com descrição e exemplo.
 
 ```python
 @dataclass(frozen=True)
 class DescricaoDeFuncao:
     nome: str; assinatura: str; uso: str; retorna: str; exemplo: str
     def linha_da_aula(self) -> str
+def registrar(uso: str, retorna: str, exemplo: str)        # decorador
+def funcoes() -> dict[str, Callable]
+def descricoes() -> list[DescricaoDeFuncao]               # na ordem de uso
 
-def registrar(uso: str, retorna: str, exemplo: str)      # decorador
-def funcoes() -> dict[str, Callable]                     # nome -> função
-def descricoes() -> list[DescricaoDeFuncao]
+@dataclass
+class Resumo:
+    ok: bool; saida: str; relatorio: str; alteradas: int; pendencias: int
+    def __str__(self) -> str                               # o que o script mostra na tela
 
-# As 6 funções da versão 25/11:
+# As 6 funções da versão 25/11, na ordem em que um script as chama:
 def ler_planilha(rotulo, arquivo, aba, linha_cabecalho) -> Tabela
-def iniciar(ferramenta, arquivo_destino, aba_destino) -> tuple[Registro, CopiaSegura]
-def casar_por_chave(origem, coluna_origem, destino, coluna_destino, casos_problema) -> Pares
-def completar_coluna(pares, coluna_origem, coluna_destino, registro, copia) -> None
-def trocar_coluna(pares, coluna_origem, coluna_destino, registro, copia) -> None
-def finalizar(registro, copia, saida, relatorio) -> Resumo
+def iniciar(ferramenta, origem, destino) -> Registro                     # registra as linhas das duas tabelas
+def casar_por_chave(registro, origem, coluna_origem, destino, coluna_destino, casos_problema) -> Pares
+def completar_coluna(registro, pares, coluna_origem, coluna_destino) -> None   # só células vazias
+def trocar_coluna(registro, pares, coluna_origem, coluna_destino) -> None      # troca o que difere
+def finalizar(registro, pares, saida, relatorio) -> Resumo               # aplica, confere, grava, relata
 ```
 
-- **Importa:** nucleo.
-- **Pronto quando:** as 6 funções têm descrição e exemplo; um teste executa o exemplo de cada uma numa planilha inventada; `descricoes()` devolve as 6 na ordem de uso.
+- **Regras:** `casar_por_chave` dá o desfecho de toda linha da origem e das linhas do destino sem chave ou sem par; `finalizar` dá o desfecho das linhas casadas (alterada, com pendência ou sem mudança), assim a conferência de completude sempre fecha. `zeros_na_chave=True` vira `Opcoes(zeros_chave=20)` (as duas chaves completadas com zeros até 20 dígitos). Valor diferente na origem para a mesma chave, com `chave_repetida="nao_alterar"`, vira pendência.
+- **Pronto quando:** o exemplo de cada função roda numa planilha inventada; um script com as 6 funções gera saída e relatório.
 
 **`ferramentas/alterar_coluna.py` ★**
 
 - **Ficha técnica:** camada 5 · dono A · entrega 22/11.
-- **Propósito:** a ferramenta semente. Também vira o primeiro script aprovado (4.8).
-- **Interface:** `processar(cfg, arquivo_destino=None)`, `executar(cfg)`.
-- **Mudanças:** trocar a configuração padrão (nomes do trabalho) por nomes genéricos e apontar para `dados_exemplo/`.
+- **Propósito:** a ferramenta semente; também vira o primeiro script aprovado (4.8).
+- **Mudanças:** configuração padrão com nomes genéricos, apontando para `dados_exemplo/`.
 - **Pronto quando:** os 14 testes atuais passam, incluindo as 5 sabotagens.
 
 ### 4.4 `src/agentes/comum/`
@@ -327,298 +350,286 @@ def finalizar(registro, copia, saida, relatorio) -> Resumo
 **`llm.py` ★**
 
 - **Ficha técnica:** camada 4 · dono B · entrega 19/11 (vem da reconstrução do FlowMind).
-- **Propósito:** esconder qual LLM está em uso (P3).
 
 ```python
 Mensagem = dict[str, str]           # {"role": "user" | "assistant", "content": "..."}
-
 class LLM(Protocol):
     def conversar(self, mensagens: list[Mensagem]) -> str: ...
-
-class LLMFalso:                     # devolve respostas prontas, em ordem
+class LLMFalso:                     # devolve respostas prontas, em ordem; acabou = RuntimeError
     def __init__(self, respostas: list[str]) -> None
-    recebido: list[list[Mensagem]]  # tudo o que "viu", para os testes conferirem
-
+    recebido: list[list[Mensagem]]  # tudo o que "viu"
 class LLMCompativelOpenAI:          # Groq, Ollama ou qualquer servidor no formato da OpenAI
     def __init__(self, modelo: str, url_base: str | None = None,
                  variavel_da_chave: str = "LLM_API_KEY", temperatura: float = 0.0) -> None
-
-def criar_llm_do_ambiente() -> LLM  # lê o .env
-
-class LLMIndisponivel(Exception): ...   # rede, chave inválida ou limite do plano grátis
+def criar_llm_do_ambiente() -> LLM  # lê LLM_URL_BASE, LLM_MODELO, LLM_API_KEY
+class LLMIndisponivel(Exception): ...
 ```
 
-- **Importa:** só a biblioteca padrão (`urllib`, `json`, `os`). Não usa a biblioteca oficial de nenhum fornecedor.
+- **Regras:** só `urllib` (nada da biblioteca `openai`). HTTP 429 (limite do plano grátis): espera 5 s e 10 s e tenta de novo, no máximo 3 vezes; depois, ou em qualquer outro erro de HTTP ou rede, `LLMIndisponivel`.
 - **Pronto quando:** testes com o `LLMFalso` passam sem internet; uma chamada manual ao Groq responde.
 
 **`execucao.py` ★**
 
-- **Ficha técnica:** camada 4 · dono B · entrega 19/11 (vem da reconstrução do FlowMind).
-- **Propósito:** tirar o código da resposta do LLM e recusar o que for perigoso ou fora do catálogo.
+- **Ficha técnica:** camada 4 · dono B · entrega 19/11.
 
 ````python
-def extrair_codigo(resposta: str) -> str                        # exige um único bloco ```python
-def conferir_codigo(codigo: str, permitidas: set[str]) -> list[str]   # vazio = aceito
+def extrair_codigo(resposta: str) -> str           # exige um único bloco ```python
+def conferir_codigo(codigo: str, permitidas: set[str],
+                    exigir_funcoes: tuple[str, ...] = ()) -> list[str]   # vazio = aceito
+def extrair_json(resposta: str) -> dict            # acha o JSON mesmo cercado de texto ou crases; ValueError se não houver
 class CodigoRecusado(Exception): ...
 ````
 
-- **Importa:** `ast`, `re`.
-- **Pronto quando:** os testes atuais passam, incluindo `import`, `open`, `eval`, `__class__`, `.format` e `gi_frame` recusados.
+- **Mudanças em relação à reconstrução:** a exigência de `print()` sai; entra `exigir_funcoes` (por exemplo, `("executar",)`); entra `extrair_json`.
+- **Pronto quando:** recusa `import`, `open`, `eval`, `__class__`, `.format` e `gi_frame`; `extrair_json` aceita resposta "suja" (texto + crases).
 
 **`prompts.py`**
 
 - **Ficha técnica:** camada 4 · dono B · entrega 20/11.
-- **Propósito:** ler um arquivo de `prompts/` e preencher as variáveis.
 
 ```python
-def carregar(nome: str, **valores: str) -> str    # usa string.Template ($variavel)
-# lança KeyError se faltar alguma variável: um prompt nunca sai com lacuna
+def carregar(nome: str, **valores: str) -> str    # lê prompts/<nome>.md (utf-8) e preenche com string.Template; KeyError se faltar variável
 ```
-
-- **Importa:** `pathlib`, `string`.
-- **Pronto quando:** testes cobrem preenchimento correto, variável faltando e prompt inexistente.
 
 **`registro.py`**
 
 - **Ficha técnica:** camada 4 · dono C · entrega 22/11.
-- **Propósito:** guardar tudo o que o LLM recebeu e respondeu, para provar a privacidade.
 
 ```python
 class RegistroDeChamadas:
     def anotar(self, agente: str, mensagens: list[Mensagem], resposta: str) -> None
-    def texto_enviado(self) -> str           # tudo o que saiu da máquina, concatenado
-    def salvar(self, arquivo: str) -> None   # JSON
-
-class LLMRegistrado:                         # embrulha qualquer LLM e anota cada chamada
+    def texto_enviado(self) -> str           # tudo o que saiu da máquina
+    def salvar(self, arquivo: str) -> None   # JSON, utf-8
+class LLMRegistrado:                         # mesma interface LLM; anota cada chamada
     def __init__(self, llm: LLM, registro: RegistroDeChamadas, agente: str) -> None
     def conversar(self, mensagens: list[Mensagem]) -> str
 ```
-
-- **Importa:** `llm.py`, `json`.
-- **Pronto quando:** `test_privacidade.py` (4.8) usa o registro e passa.
-
-`LLMRegistrado` segue a mesma interface `LLM`. Por isso o orquestrador pode registrar as chamadas sem que Construtor e Revisor saibam que estão sendo registrados.
 
 ### 4.5 `src/agentes/construtor/`
 
 **`busca.py`**
 
 - **Ficha técnica:** camada 3 · dono B · entrega 22/11 (versão falsa em 20/11: sempre "criar novo").
-- **Propósito:** decidir se algum script aprovado atende o pedido.
 
 ```python
 @dataclass
 class Decisao:
-    reaproveitar: str | None    # nome do script aprovado, ou None para criar
+    reaproveitar: str | None    # script aprovado que serve IGUAL (só troca o CONFIG)
+    parecido: str | None        # script aprovado PARECIDO (vira exemplo na aula)
     motivo: str
-
 def decidir(llm: LLM, pedido: str, raio_x: list[RaioX], indice: list[dict]) -> Decisao
 ```
 
-- **Regra:** se o LLM indicar um nome que não está no índice, a decisão vira "criar novo". O LLM nunca inventa um script.
-- **Importa:** comum (llm, prompts), nucleo (disfarce, só o tipo `RaioX`).
-- **Pronto quando:** testes com o `LLMFalso` cobrem reaproveitar, criar e nome inventado.
+- **Regras:** o LLM responde `{"reaproveitar": nome|null, "parecido": nome|null, "motivo": "..."}` (lido com `extrair_json`). Nome que não está no índice vira `None`: o LLM nunca inventa um script.
 
 **`ficha.py`**
 
 - **Ficha técnica:** camada 3 · dono B · entrega 21/11 (versão falsa em 20/11: ficha fixa).
-- **Propósito:** transformar o pedido em uma `Ficha`, com a lista do que foi suposto.
 
 ```python
 def preencher(llm: LLM, pedido: str, raio_x: list[RaioX], amostras: list[list[dict]]) -> Ficha
-def aplicar_correcao(llm: LLM, ficha: Ficha, correcao: str) -> Ficha
 def mostrar(ficha: Ficha) -> str         # texto da tela de confirmação
 ```
 
-- **Regra:** se o JSON vier inválido, uma nova tentativa com o aviso do erro. Na segunda falha, lança `FichaInvalida`.
-- **Importa:** contratos, comum, nucleo (`RaioX`).
-- **Pronto quando:** testes cobrem ficha boa, JSON quebrado duas vezes, resposta faltando (vira pergunta) e correção aplicada.
+- **Regras:** lê a resposta com `extrair_json`, coloca `pedido` e `confirmada=False` e valida com `Ficha.de_json`. Resposta inválida: 1 nova tentativa com o aviso do erro; na 2ª, `FichaInvalida`.
 
 **`gerador.py`**
 
-- **Ficha técnica:** camada 3 · dono B · entrega 22/11 (versão falsa em 20/11: corpo fixo).
-- **Propósito:** dar a aula ao LLM e receber o corpo de `executar(config)`.
+- **Ficha técnica:** camada 3 · dono B · entrega 22/11 (versão falsa em 20/11: função fixa).
 
 ```python
 def gerar_corpo(llm: LLM, ficha: Ficha, descricoes: list[DescricaoDeFuncao],
-                aviso_anterior: str | None = None) -> str
+                exemplo: str | None = None, aviso_anterior: str | None = None) -> str
 ```
 
-- **Regra:** o corpo devolvido passa por `conferir_codigo` com `permitidas = nomes do catálogo`. Se recusar, lança `CodigoRecusado` com os problemas, e o orquestrador conta uma volta.
-- **Importa:** contratos, comum, nucleo (`catalogo`).
-- **Pronto quando:** testes cobrem corpo aceito, corpo com `import` recusado e aviso anterior incluído na mensagem.
+- **Regras:** o LLM escreve **a função inteira `def executar(config):`**, sem import, usando só funções do catálogo e o `config` no formato de 4.2. `exemplo` é a função `executar` de um script parecido (vem de `montador.funcao_de`). A resposta passa por `conferir_codigo(codigo, nomes_do_catalogo, exigir_funcoes=("executar",))`; recusada → `CodigoRecusado` (o orquestrador conta uma volta).
 
 **`montador.py`**
 
-- **Ficha técnica:** camada 3 · dono B · entrega 20/11.
-- **Propósito:** encaixar o corpo no modelo e produzir o script final. Não usa LLM.
+- **Ficha técnica:** camada 3 · dono B · entrega 20/11. Não usa LLM.
 
 ```python
-def montar(corpo: str, ficha: Ficha) -> str                   # script novo
-def configurar(ficha: Ficha, pasta_aprovado: str) -> str      # script reaproveitado: troca só o CONFIG
-def config_da_ficha(ficha: Ficha) -> dict                      # ficha -> bloco CONFIG
+def montar(funcao: str, ficha: Ficha) -> str              # modelo + CONFIG + função; o texto final compila
+def configurar(ficha: Ficha, pasta_aprovado: Path) -> str  # script aprovado com SÓ o bloco CONFIG trocado
+def config_da_ficha(ficha: Ficha) -> dict                  # = ficha.para_config()
+def funcao_de(script: str) -> str                          # extrai a função executar de um script
+def nome_do_script(ficha: Ficha) -> str                    # ex.: "completar_email_por_matricula" (sem acento)
 ```
 
-- **Importa:** contratos, `pathlib`.
-- **Pronto quando:** o script montado compila (`compile()`); o `CONFIG` gerado tem todos os campos da ficha; `configurar` não altera nada fora do bloco `CONFIG`.
+- **Pronto quando:** o script montado compila; `configurar` não muda nada fora dos marcadores de CONFIG; `nome_do_script` só tem `a-z`, `0-9` e `_`.
 
 ### 4.6 `src/agentes/revisor/`
 
 **`kit_testes.py`**
 
 - **Ficha técnica:** camada 3 · dono C · entrega 21/11.
-- **Propósito:** dar aos testes gerados peças prontas, para que o LLM escreva testes curtos e seguros.
 
 ```python
-def criar_planilha(pasta: Path, nome: str, cabecalho: list[str], linhas: list[list]) -> Path
-def rodar_script(script: Path, config: dict, pasta: Path) -> Execucao
-    # Execucao(saida: Path, relatorio: Path, bloqueada: bool)   bloqueada = virou NAO_USE_
-def valor(saida: Path, coluna_chave: str, chave, coluna: str)
-def achados(relatorio: Path, situacao: str | None = None) -> list[dict]
-def sabotar(saida: Path, coluna_chave: str, chave, coluna: str, novo_valor) -> None
-def conferir_de_novo(execucao: Execucao) -> bool          # roda as conferências outra vez
+@dataclass
+class Execucao:
+    ok: bool; saida: Path; relatorio: Path; bloqueada: bool    # bloqueada = saída virou NAO_USE_
+def script_sob_teste() -> Path                       # lê a variável de ambiente SCRIPT_SOB_TESTE
+def criar_planilha(pasta, nome, cabecalho, linhas, aba="Plan1") -> Path
+def config_teste(ficha: dict, arquivos: dict, pasta) -> dict    # CONFIG da ficha com as planilhas do teste; saída em pasta/saida.xlsx
+def rodar_script(script: Path, config: dict) -> Execucao        # importa o script e chama executar(config)
+def valor(saida, coluna_chave, chave, coluna)                   # valor de uma célula da saída
+def achados(relatorio, situacao: str | None = None) -> list[dict]   # linhas da aba "Achados"
+DESCRICAO_KIT: str                                    # o texto que vai no prompt do Revisor
 ```
 
-- **Importa:** nucleo (para rodar e conferir), openpyxl.
-- **Pronto quando:** um teste escrito à mão com o kit cobre `alterar_coluna` nas 4 categorias.
+- **Regras:** `config_teste` usa a primeira aba de cada planilha criada e `linha_cabecalho=1`, para o teste não depender da aba da ficha.
 
 **`designer_testes.py`**
 
 - **Ficha técnica:** camada 3 · dono C · entrega 22/11 (versão falsa em 20/11: 1 teste fixo).
-- **Propósito:** escrever um arquivo pytest só a partir da ficha, sem ver o script.
 
 ```python
-def escrever_testes(llm: LLM, ficha: Ficha, descricao_kit: str) -> str
-def categorias(testes: str) -> dict[str, int]    # conta test_basico_*, test_borda_*, test_sabotagem_*
+def escrever_testes(llm: LLM, ficha: Ficha, descricao_kit: str) -> str   # arquivo pytest completo
+def categorias(testes: str) -> dict[str, int]        # {"basico": n, "borda": n}
 ```
 
-- **Regras:** os testes passam pela mesma conferência AST, liberando só as funções do kit, `assert` e `pytest`. Precisa haver pelo menos 1 teste de cada categoria; se faltar, uma nova tentativa com o aviso.
-- **Importa:** contratos, comum. **Não importa nada do construtor.**
-- **Pronto quando:** testes cobrem conjunto completo, categoria faltando e teste com `import os` recusado.
+- **Regras:** o LLM escreve **só as funções de teste** (`test_basico_*` e `test_borda_*`, com `tmp_path`), sem import. O designer coloca na frente um cabeçalho fixo com `import json`, `import pytest`, `from src.agentes.revisor.kit_testes import *`, `FICHA = json.loads(...)` e `SCRIPT = script_sob_teste()`. As funções passam por `conferir_codigo` liberando só o kit, `pytest`, `FICHA` e `SCRIPT`; falta de categoria → `CodigoRecusado`. **Não importa nada do construtor.**
 
 **`executor.py`**
 
-- **Ficha técnica:** camada 3 · dono C · entrega 20/11.
-- **Propósito:** rodar o pytest num processo separado e devolver o resultado sem dados.
+- **Ficha técnica:** camada 3 · dono C · entrega 20/11. Não usa LLM.
 
 ```python
 @dataclass
 class Falha:
     teste: str; tipo_erro: str; linha: int | None
-
 @dataclass
 class ResultadoTestes:
     passou: bool; total: int; falhas: list[Falha]
-    def aviso(self) -> str       # o texto que volta ao Construtor (sem mensagens de erro)
-
+    def aviso(self) -> str       # "Falharam 1 de 2 testes:\n- test_borda_x: AssertionError na linha 12"
 def executar(script: Path, testes: Path, tempo_limite: int = 60) -> ResultadoTestes
 ```
 
-- **Como funciona:** roda `python -m pytest <testes> --junitxml=<arquivo>` com `subprocess` e lê do XML só o nome do teste, o tipo do erro e a linha.
-- **Importa:** `subprocess`, `xml.etree`. Não usa LLM.
-- **Pronto quando:** testes cobrem tudo passando, uma falha, tempo esgotado e a garantia de que `aviso()` não contém o texto da mensagem de erro.
+- **Como roda (exatamente):** `subprocess.run([sys.executable, "-m", "pytest", <testes>, "-q", "-p", "no:cacheprovider", "-c", <raiz>/pyproject.toml, "--rootdir", <raiz>, "--junitxml=<tmp>/resultado.xml"], cwd=<raiz>, env={..., "SCRIPT_SOB_TESTE": <script>}, timeout=tempo_limite)`.
+- **Como lê:** do XML, só o nome de cada teste; o tipo e a linha saem da última linha do traceback (`arquivo.py:12: AssertionError`). A mensagem do erro, que contém valores, nunca é usada. Tempo esgotado → falha `TempoEsgotado`; nenhum teste coletado → falha `NenhumTeste`.
 
 ### 4.7 Orquestração e interface
 
 **`src/agentes/orquestrador.py`**
 
 - **Ficha técnica:** camada 2 · dono B (com C na integração) · entrega 20/11 com peças falsas; 23/11 completo.
-- **Propósito:** executar a Fase 1 na ordem certa e aplicar o limite de voltas.
 
 ```python
 @dataclass
 class ResultadoFase1:
     situacao: Literal["aprovado", "reprovado", "cancelado"]
     ficha: Ficha | None; script: Path | None; voltas: int; historico: list[str]
-
 class Orquestrador:
     def __init__(self, llm: LLM, pasta_aprovados: Path, max_voltas: int = 3,
-                 modo: Literal["dois_agentes", "um_agente"] = "dois_agentes") -> None
+                 modo: Literal["dois_agentes", "um_agente"] = "dois_agentes",
+                 pasta_trabalho: Path = Path("saida/candidatos")) -> None
     def fase1(self, pedido: str, planilhas: dict[str, Path],
               confirmar: Callable[[Ficha], Ficha | None]) -> ResultadoFase1
     registro: RegistroDeChamadas
 ```
 
-- **Regras:** `confirmar` devolve a ficha confirmada (talvez corrigida) ou `None` para cancelar; nunca há `input()` aqui dentro. No `modo="um_agente"`, o Construtor escreve também os testes, na mesma conversa (só para o experimento).
-- **Importa:** contratos, nucleo (disfarce), comum, construtor, revisor. É o único que conhece os dois agentes.
-- **Pronto quando:** `test_ponta_a_ponta.py` passa nos três desfechos (aprovado, reprovado após 3 voltas, cancelado).
+- **Regras:** a ordem exata está na seção 5. As chamadas ao LLM acontecem nesta ordem: busca → ficha → testes (Revisor, uma vez) → função (Construtor, uma por volta). `confirmar` devolve a ficha (talvez corrigida) ou `None`; nunca há `input()` aqui. Raio-x e amostra usam a primeira aba de cada planilha. Cada tentativa é gravada em `pasta_trabalho/<data-hora>/` (`script.py` e `test_script.py`); só o aprovado vai para `pasta_aprovados/<nome>/` com `ficha.json`, e o `indice.json` é atualizado.
+- **Pronto quando:** `tests/test_ponta_a_ponta.py` passa (aprovado na 1ª volta, aprovado na 2ª, reprovado após 3, cancelado e reaproveitado).
 
 **`src/principal.py`**
 
 - **Ficha técnica:** camada 1 · dono B · entrega 20/11.
-- **Propósito:** ligar o orquestrador ao terminal.
 
 ```
 python -m src.principal criar "pedido" --planilha origem=CAMINHO --planilha destino=CAMINHO
-python -m src.principal listar          # mostra os scripts aprovados
+python -m src.principal listar
 ```
 
-- **Regras:** é aqui que fica o `input()` da confirmação. As respostas aceitas são `s` (confirma), `n` (cancela) ou um texto (correção). Erros viram mensagens claras, sem traceback.
-- **Importa:** orquestrador, comum (`criar_llm_do_ambiente`), `argparse`.
-- **Pronto quando:** os dois comandos funcionam com o LLM falso e com o Groq.
+- **Regras:** aqui fica o `input()` da confirmação (`s`, `n` ou texto de correção). Erros viram mensagens claras, sem traceback.
 
 ### 4.8 Arquivos de apoio
 
-**Prompts** (`prompts/`). Todo prompt tem as mesmas 4 partes, na ordem da receita do SheetCopilot: papel, informação disponível, regras e formato da resposta.
+**Modelo** (`modelos/script_gerado.py.modelo`, dono B; **já validado, entra pronto no repositório**). As lacunas são `$raiz`, `$config` e `$funcao`, preenchidas com `string.Template`:
+
+```python
+# ===== Gerado pelo agente. Nao edite o cabecalho nem o final. =====
+import sys
+from pathlib import Path
+
+_AQUI = Path(__file__).resolve()
+_RAIZ = next((p for p in _AQUI.parents if (p / "src" / "nucleo").is_dir()), Path(r"$raiz"))
+if str(_RAIZ) not in sys.path:
+    sys.path.insert(0, str(_RAIZ))
+
+from src.nucleo.catalogo import *  # noqa: E402,F401,F403
+
+# --- CONFIG (inicio) ---
+CONFIG = $config
+# --- CONFIG (fim) ---
+
+
+$funcao
+
+
+if __name__ == "__main__":
+    print(executar(CONFIG))
+```
+
+O cabeçalho procura a raiz do projeto subindo as pastas; se o script estiver fora dela, usa o caminho gravado na hora da montagem. Assim ele roda com dois cliques, de qualquer pasta, sem `ModuleNotFoundError`.
+
+**Prompts** (`prompts/`). Todo prompt tem: papel, informação disponível, regras e formato da resposta.
 
 | Arquivo | Dono | Variáveis | Resposta esperada |
 | --- | --- | --- | --- |
-| `construtor_busca.md` | B | `$pedido`, `$raio_x`, `$indice` | JSON `{"reaproveitar": nome ou null, "motivo": "..."}` |
+| `construtor_busca.md` | B | `$pedido`, `$raio_x`, `$indice` | JSON `{"reaproveitar", "parecido", "motivo"}` |
 | `construtor_ficha.md` | B | `$pedido`, `$raio_x`, `$amostra` | JSON da `Ficha`, com `suposicoes` |
-| `construtor_aula.md` | B | `$descricoes`, `$ficha` | um bloco \`\`\`python com o corpo de `executar(config)` |
-| `revisor_testes.md` | C | `$ficha`, `$kit` | um bloco \`\`\`python com o arquivo de testes |
+| `construtor_aula.md` | B | `$descricoes`, `$ficha`, `$exemplo` | um bloco \`\`\`python com `def executar(config):` |
+| `revisor_testes.md` | C | `$ficha`, `$kit` | um bloco \`\`\`python só com funções `test_basico_*` e `test_borda_*` |
 
-**Modelo** (`modelos/script_gerado.py.modelo`, dono B). Tem cabeçalho fixo com `from src.nucleo.catalogo import *`, a lacuna `$config`, `def executar(config):` seguido da lacuna `$corpo`, e o bloco final `if __name__ == "__main__": print(executar(CONFIG))`.
+**Scripts aprovados** (`scripts_aprovados/`, dono A). Cada aprovado é uma pasta com `script.py`, `test_script.py` e `ficha.json`. O `indice.json` é uma lista com `nome`, `acao`, `descricao`, `aprovado_em` e `voltas`. A primeira entrada é o `alterar_coluna`, montado com o modelo acima.
 
-**Scripts aprovados** (`scripts_aprovados/`, dono A). Cada script aprovado é uma pasta com `ficha.json`, `script.py` e `test_script.py`. O `indice.json` é uma lista com `nome`, `acao`, `descricao`, `aprovado_em` e `voltas`. A primeira entrada é o `alterar_coluna`, para a busca ter o que encontrar desde o primeiro dia.
-
-**Planilhas inventadas** (`dados_exemplo/gerar_exemplos.py`, dono A). Um script, não planilhas feitas à mão: as planilhas podem ser recriadas a qualquer momento e o repositório guarda só o código que as gera. Gera `basico/` (origem e destino limpos) e `casos_problema/` (células vazias, chave repetida, acentos e maiúsculas, zeros à esquerda, fórmulas).
+**Planilhas inventadas** (`dados_exemplo/gerar_exemplos.py`, dono A). Gera `basico/` e `casos_problema/` (vazios, chave repetida, acentos e maiúsculas, zeros à esquerda, fórmulas).
 
 **Testes de destaque** (`tests/`)
 
 | Arquivo | Dono | O que prova |
 | --- | --- | --- |
-| `conftest.py` | A | peças compartilhadas: `llm_falso`, `pasta_temporaria`, `planilhas_basicas`, `ficha_exemplo` |
-| `test_privacidade.py` | C | roda um pedido inteiro com o LLM falso e confere que nenhum valor das planilhas aparece em `registro.texto_enviado()` |
-| `test_ponta_a_ponta.py` | B+C | os 13 passos da Fase 1 com respostas gravadas, nos 3 desfechos |
+| `test_camadas.py` | (pronto) | nenhum import proibido entre camadas |
+| `test_ponta_a_ponta.py` | (pronto) | **o termômetro:** o caminho inteiro com o LLM falso, incluindo rodar o script aprovado num processo separado e conferir a planilha de saída; enquanto faltar alguma peça, aparece como "skipped" |
+| `test_privacidade.py` | C | nenhum valor das planilhas aparece em `registro.texto_enviado()` |
 
-**Avaliação** (`avaliacao/`, dono C). `pedidos.json` traz os 8 pedidos (4 que devem reaproveitar um script, 3 novos dentro do catálogo, 1 fora do catálogo), cada um com as planilhas e a saída correta. `rodar_experimento.py` roda os 8 nos dois modos e grava uma tabela em `resultados.md`.
+**Avaliação** (`avaliacao/`, dono C). `pedidos.json` traz os 8 pedidos (4 que devem reaproveitar, 3 novos dentro do catálogo, 1 fora), cada um com planilhas e gabarito; `rodar_experimento.py` roda os 8 nos dois modos e grava `resultados.md`.
 
 ## 5. Fluxo entre arquivos
 
-Esta tabela é o roteiro de execução: cada linha é uma chamada de função, na ordem em que acontece. Ela mostra exatamente onde um arquivo entrega dados para outro, e é o que o `test_ponta_a_ponta.py` percorre.
+Esta tabela é o roteiro de execução, na ordem exata em que o `test_ponta_a_ponta.py` percorre.
 
 **Fase 1: `python -m src.principal criar ...`**
 
 | # | Quem chama | Chama | Em | Recebe | Devolve |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `principal.py` | `criar_llm_do_ambiente()` | `comum/llm.py` | `.env` | `LLM` |
-| 2 | `principal.py` | `Orquestrador(...).fase1(...)` | `orquestrador.py` | pedido, planilhas, função `confirmar` | `ResultadoFase1` |
-| 3 | `orquestrador.py` | `raio_x()`, `amostra_disfarcada()` | `nucleo/disfarce.py` | caminhos das planilhas | `RaioX`, amostra |
-| 4 | `orquestrador.py` | `decidir()` | `construtor/busca.py` | pedido, raio-x, `indice.json` | `Decisao` |
-| 5 | `orquestrador.py` | `preencher()` | `construtor/ficha.py` | pedido, raio-x, amostra | `Ficha` |
-| 6 | `orquestrador.py` | `confirmar(ficha)` | `principal.py` (função recebida) | `Ficha` | `Ficha` confirmada ou `None` |
-| 7a | `orquestrador.py` | `gerar_corpo()` | `construtor/gerador.py` | ficha, `descricoes()`, aviso anterior | corpo (texto) |
-| 7b | `gerador.py` | `conferir_codigo()` | `comum/execucao.py` | corpo, nomes do catálogo | lista de problemas |
-| 7c | `orquestrador.py` | `montar()` ou `configurar()` | `construtor/montador.py` | corpo ou script aprovado, ficha | script completo |
-| 8 | `orquestrador.py` | `escrever_testes()` | `revisor/designer_testes.py` | **só a ficha** + descrição do kit | arquivo de testes |
-| 9 | `orquestrador.py` | `executar()` | `revisor/executor.py` | script, testes | `ResultadoTestes` |
-| 9b | se falhou | volta ao 7a com `resultado.aviso()` | — | — | máximo 3 voltas |
-| 10 | `orquestrador.py` | grava a pasta e atualiza o índice | `scripts_aprovados/` | script, ficha, testes | pasta nova |
+| 2 | `principal.py` | `Orquestrador(...).fase1(...)` | `orquestrador.py` | pedido, planilhas, `confirmar` | `ResultadoFase1` |
+| 3 | `orquestrador.py` | `raio_x()`, `amostra_disfarcada()` | `nucleo/disfarce.py` | planilhas (primeira aba) | `RaioX`, amostras |
+| 4 | `orquestrador.py` | `decidir()` 🤖 | `construtor/busca.py` | pedido, raio-x, `indice.json` | `Decisao` |
+| 5 | `orquestrador.py` | `preencher()` 🤖 | `construtor/ficha.py` | pedido, raio-x, amostras | `Ficha` |
+| 6 | `orquestrador.py` | `confirmar(ficha)` | função de `principal.py` | `Ficha` | `Ficha` ou `None` (→ cancelado) |
+| 7 | `orquestrador.py` | `escrever_testes()` 🤖 | `revisor/designer_testes.py` | **só a ficha** + `DESCRICAO_KIT` | arquivo de testes |
+| 8 | `orquestrador.py` | `funcao_de()` (se houver parecido) | `construtor/montador.py` | script parecido | exemplo |
+| 9a | `orquestrador.py` | `gerar_corpo()` 🤖 + `montar()` | `construtor/` | ficha, `descricoes()`, exemplo, aviso | script |
+| 9b | (se reaproveitar) | `configurar()` | `construtor/montador.py` | ficha, pasta do aprovado | script |
+| 10 | `orquestrador.py` | `executar()` | `revisor/executor.py` | script, testes | `ResultadoTestes` |
+| 11 | se falhou | volta ao 9a com `aviso()` | — | — | máximo 3 voltas → reprovado |
+| 12 | se passou | grava pasta e índice | `scripts_aprovados/` | script, testes, ficha | aprovado |
 
-Todas as chamadas ao LLM dos passos 4, 5, 7a e 8 passam pelo `LLMRegistrado` (`comum/registro.py`). Por isso, ao fim da Fase 1, `orquestrador.registro.texto_enviado()` contém tudo o que saiu da máquina.
+🤖 = chamada ao LLM, sempre pelo `LLMRegistrado`.
 
-**Fase 2: `python scripts_aprovados/<nome>/script.py`**
+**Fase 2: `python scripts_aprovados/<nome>/script.py`** (ou dois cliques)
 
-| # | Quem chama | Chama | Em | Devolve |
-| --- | --- | --- | --- | --- |
-| 11 | `script.py` | `ler_planilha()` (2 vezes) | `nucleo/catalogo.py` → `nucleo.py` | `Tabela` |
-| 12 | `script.py` | `iniciar()` | `nucleo/catalogo.py` | `Registro`, `CopiaSegura` |
-| 13 | `script.py` | `casar_por_chave()` | `nucleo/catalogo.py` | `Pares` |
-| 14 | `script.py` | `completar_coluna()` ou `trocar_coluna()` | `nucleo/catalogo.py` | anota no `Registro` |
-| 15 | `script.py` | `finalizar()` | `nucleo/catalogo.py` → `nucleo.py` | saída (ou `NAO_USE_`) + relatório + `Resumo` |
+| # | Chama | Em | Devolve |
+| --- | --- | --- | --- |
+| 13 | `ler_planilha()` 2× | `nucleo/catalogo.py` | `Tabela` |
+| 14 | `iniciar()` | `nucleo/catalogo.py` | `Registro` |
+| 15 | `casar_por_chave()` | `nucleo/catalogo.py` | `Pares` |
+| 16 | `completar_coluna()` ou `trocar_coluna()` por coluna | `nucleo/catalogo.py` | anota no `Registro` |
+| 17 | `finalizar()` | `nucleo/catalogo.py` → `nucleo.py` | saída (ou `NAO_USE_`) + relatório + `Resumo` |
 
-Na Fase 2, nenhum arquivo de `agentes/` é carregado. Isso pode ser provado rodando o script com a internet desligada.
+Na Fase 2, nenhum arquivo de `agentes/` é carregado.
 
 ## 6. Regras de desenvolvimento
 
@@ -638,6 +649,11 @@ Regras combinadas uma vez e seguidas por todos. Elas existem para que o código 
 | Saída na tela | só `principal.py` e os scripts gerados usam `print`; os outros arquivos devolvem valores | o orquestrador devolve `ResultadoFase1`, não imprime |
 | Erros | exceções com nome (`FichaInvalida`, `CodigoRecusado`, `LLMIndisponivel`); nunca `except:` vazio | `raise FichaInvalida("falta a coluna-chave")` |
 | Importações | só camadas de baixo (P2); importações no topo do arquivo, uma por linha | `from src.contratos.ficha import Ficha` |
+
+Duas regras a mais, porque quebram no Windows sem aviso:
+
+- **Arquivos de texto sempre com `encoding="utf-8"`** (`open()`, `read_text()`, `write_text()`). Pastas com acento ou `°` quebram sem isso.
+- **Subprocessos sempre com `sys.executable`**, nunca com o comando `python` solto, que pode ser outro Python, sem as bibliotecas do projeto.
 
 Modelo de docstring:
 
@@ -809,6 +825,8 @@ A ordem segue as camadas de baixo para cima (cada camada precisa da de baixo par
 3. a busca vira sempre "criar novo".
 
 O esqueleto, a ficha, o Construtor e o executor nunca são cortados: sem eles, não há o que demonstrar.
+
+**Como saber quanto falta:** o `tests/test_ponta_a_ponta.py` já está no repositório. Enquanto faltar alguma peça, ele aparece como `skipped`. No dia em que ele passar, o sistema executa de ponta a ponta, do pedido ao script aprovado rodando numa planilha.
 
 ## 9. Checklist de entrega
 
