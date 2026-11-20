@@ -1,0 +1,21 @@
+# ===== Gerado pelo agente. Nao edite o cabecalho nem o final. =====
+import sys
+from pathlib import Path
+
+_AQUI = Path(__file__).resolve()
+_RAIZ = next((p for p in _AQUI.parents if (p / "src" / "nucleo").is_dir()), Path(r"$raiz"))
+if str(_RAIZ) not in sys.path:
+    sys.path.insert(0, str(_RAIZ))
+
+from src.nucleo.catalogo import *  # noqa: E402,F401,F403
+
+# --- CONFIG (inicio) ---
+CONFIG = $config
+# --- CONFIG (fim) ---
+
+
+$funcao
+
+
+if __name__ == "__main__":
+    print(executar(CONFIG))

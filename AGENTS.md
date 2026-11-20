@@ -44,6 +44,15 @@ Cada arquivo só importa camadas ABAIXO dele. Nunca acima, nunca ao lado.
 - Nomes em português, sem acento: funções `minusculas_com_sublinhado`, classes `MaiusculasJuntas`, constantes `MAIUSCULAS`.
 - Anotação de tipos em toda função pública e docstring com: o que faz, Recebe, Devolve, Garante.
 - Caminhos com `pathlib.Path`.
+- Todo arquivo de texto com `encoding="utf-8"` (`open`, `read_text`, `write_text`). Pastas com acento quebram sem isso.
+- Subprocessos com `sys.executable`, nunca com o comando `python` solto.
+- Não altere `tests/test_camadas.py` nem `tests/test_ponta_a_ponta.py`. O segundo é o termômetro: enquanto faltar peça ele aparece como `skipped`; quando passa, o sistema executa de ponta a ponta.
+
+## Código escrito pelo LLM dentro do sistema
+
+- Construtor: o LLM escreve SÓ a função `def executar(config):`, sem import, usando só funções do catálogo. O `montador.py` encaixa no modelo `modelos/script_gerado.py.modelo` (não edite o modelo sem combinar).
+- Revisor: o LLM escreve SÓ funções `test_basico_*` e `test_borda_*`, sem import. O `designer_testes.py` coloca o cabeçalho fixo.
+- Respostas do LLM são lidas com `extrair_codigo()` e `extrair_json()` (aceitam texto e crases em volta).
 
 ## Comandos
 
@@ -58,7 +67,8 @@ python -m pytest -q
 ## Contrato central: `src/contratos/ficha.py`
 
 A `Ficha` responde 6 perguntas: `planilhas`, `chave`, `acao` ("completar" ou "trocar"), `colunas`, `casos_problema`, `saida`.
-Tem também `pedido`, `suposicoes` e `confirmada`. Métodos: `problemas()`, `perguntas()`, `para_json()`, `de_json()`.
+Tem também `pedido`, `suposicoes` e `confirmada`. Métodos: `problemas()`, `perguntas()`, `para_config()`, `para_json()`, `de_json()`.
+O formato do CONFIG que o script recebe está em `docs/estrutura.md`, seção 4.2.
 Não altere este arquivo sem combinar com o grupo.
 
 ## Git
