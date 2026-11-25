@@ -106,7 +106,12 @@ class LLMCompativelOpenAI:
                 "temperature": self.temperatura,
             }
         ).encode("utf-8")
-        cabecalhos = {"Content-Type": "application/json"}
+        
+        cabecalhos = {
+            "Content-Type": "application/json",
+            "User-Agent": "automatizacao-trabalho/1.0",
+        }
+
         if self.chave:
             cabecalhos["Authorization"] = f"Bearer {self.chave}"
 
