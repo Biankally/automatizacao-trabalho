@@ -245,7 +245,7 @@ Peças disponíveis nos testes (já importadas; não escreva import):
 
 - criar_planilha(pasta, nome, cabecalho, linhas, aba="Plan1") -> caminho
     Cria uma planilha pequena inventada. linhas é uma lista de listas; None = célula vazia.
-    Use chaves como texto ("1", "0048213") e os MESMOS nomes de coluna da ficha.
+    Use chaves como texto ("1", "00123") e os MESMOS nomes de coluna da ficha.
     Ex.: o = criar_planilha(tmp_path, "o.xlsx", ["Matricula", "Email"], [["1", "a@x.com"]])
 
 - config_teste(FICHA, {"origem": o, "destino": d}, tmp_path) -> config
@@ -261,7 +261,10 @@ Peças disponíveis nos testes (já importadas; não escreva import):
 - achados(r.relatorio, situacao=None) -> lista de achados (dicionários)
     Situações possíveis: diferente, vazio, sem_par, so_na_referencia, chave_repetida,
     protegido, fora_da_regra, pergunta, fora_do_escopo, excluido.
+    Campos de cada achado: linha, chave, coluna, situacao, aplicado, valor, valor_novo.
     Use só a quantidade ou se a lista está vazia: assert achados(r.relatorio, "sem_par")
+    Toda célula alterada TAMBÉM vira achado ("vazio" ao completar, "diferente" ao trocar,
+    com aplicado=True); por isso o relatório quase nunca fica vazio.
 
 Nomes dos testes: test_basico_* (o caso normal do pedido) e test_borda_* (casos estranhos).
 """

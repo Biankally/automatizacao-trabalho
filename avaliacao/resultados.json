@@ -1,0 +1,442 @@
+[
+ {
+  "versao": "v1 inicial",
+  "base_treino": "treino_v1",
+  "n_treino": 45,
+  "n_teste": 66,
+  "alfa": 1.0,
+  "acuracia": 0.45454545454545453,
+  "precisao_macro": 0.4754168614617423,
+  "recall_macro": 0.4545454545454546,
+  "f1_macro": 0.4466888642249353,
+  "por_classe": {
+   "completar": {
+    "precisao": 0.5833333333333334,
+    "recall": 0.3181818181818182,
+    "f1": 0.4117647058823529,
+    "suporte": 22
+   },
+   "trocar": {
+    "precisao": 0.391304347826087,
+    "recall": 0.4090909090909091,
+    "f1": 0.4,
+    "suporte": 22
+   },
+   "fora_do_escopo": {
+    "precisao": 0.45161290322580644,
+    "recall": 0.6363636363636364,
+    "f1": 0.5283018867924528,
+    "suporte": 22
+   }
+  },
+  "matriz": {
+   "completar": {
+    "completar": 7,
+    "trocar": 8,
+    "fora_do_escopo": 7
+   },
+   "trocar": {
+    "completar": 3,
+    "trocar": 9,
+    "fora_do_escopo": 10
+   },
+   "fora_do_escopo": {
+    "completar": 2,
+    "trocar": 6,
+    "fora_do_escopo": 14
+   }
+  },
+  "erros": [
+   {
+    "pedido": "preenche o telefone de quem ainda não tem, usando a lista do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "quero que os CPFs vazios sejam completados com a base do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "completa só as células vazias de endereço",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "preencher as datas de admissão que ficaram em branco",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "nas linhas sem setor, traga o setor da outra planilha",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "complementar o CEP de quem está sem",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "adiciona o ramal nas linhas onde ele não aparece",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "os telefones que estão vazios precisam ser preenchidos com os da origem",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "buscar no RH o email de quem não tem email",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "vê quem está sem nome social e preenche com o da outra base",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "pegar os cargos que faltam da planilha do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "colocar o telefone onde a célula estiver vazia",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "quero completar os e-mails ausentes",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "completa o setor de quem ficou sem",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "as matrículas novas estão sem email, puxar do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "atualiza os telefones com a lista nova",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "substituir os endereços antigos pelos da base atual",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "os cargos mudaram, corrige conforme a planilha da diretoria",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "deixa o setor igual ao que está no RH",
+    "real": "trocar",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "trocar os e-mails errados pelos certos",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "a lotação está errada em várias linhas, atualizar pela matrícula",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "corrigir os nomes sociais usando a base nova",
+    "real": "trocar",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "quero que o telefone fique igual ao da outra planilha mesmo se já tiver um",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "muda o cargo para o que está na planilha nova",
+    "real": "trocar",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "substitui as datas de admissão pelas corretas",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "os CPFs estão com erro, troque pelos da base oficial",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "refaz os endereços com a versão atual",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "renovar os dados de lotação com a planilha atual",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "ordena a planilha por nome",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "manda essa planilha por email pro chefe",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "transforma a planilha em PDF",
+    "real": "fora_do_escopo",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "filtra só quem é do setor financeiro",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "coloca senha na planilha",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "separa a planilha em uma por setor",
+    "real": "fora_do_escopo",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "cria uma planilha nova com o modelo de férias",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "gera um relatório com o total por mês",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   }
+  ]
+ },
+ {
+  "versao": "v2 ajustado",
+  "base_treino": "treino_v1",
+  "n_treino": 45,
+  "n_teste": 66,
+  "alfa": 0.05,
+  "acuracia": 0.7121212121212122,
+  "precisao_macro": 0.7833800186741363,
+  "recall_macro": 0.712121212121212,
+  "f1_macro": 0.7083794758213363,
+  "por_classe": {
+   "completar": {
+    "precisao": 1.0,
+    "recall": 0.5,
+    "f1": 0.6666666666666666,
+    "suporte": 22
+   },
+   "trocar": {
+    "precisao": 0.7619047619047619,
+    "recall": 0.7272727272727273,
+    "f1": 0.7441860465116279,
+    "suporte": 22
+   },
+   "fora_do_escopo": {
+    "precisao": 0.5882352941176471,
+    "recall": 0.9090909090909091,
+    "f1": 0.7142857142857143,
+    "suporte": 22
+   }
+  },
+  "matriz": {
+   "completar": {
+    "completar": 11,
+    "trocar": 3,
+    "fora_do_escopo": 8
+   },
+   "trocar": {
+    "completar": 0,
+    "trocar": 16,
+    "fora_do_escopo": 6
+   },
+   "fora_do_escopo": {
+    "completar": 0,
+    "trocar": 2,
+    "fora_do_escopo": 20
+   }
+  },
+  "erros": [
+   {
+    "pedido": "falta o e-mail de alguns servidores, consegue completar pela matrícula?",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "nas linhas sem setor, traga o setor da outra planilha",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "complementar o CEP de quem está sem",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "adiciona o ramal nas linhas onde ele não aparece",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "buscar no RH o email de quem não tem email",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "vê quem está sem nome social e preenche com o da outra base",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "pegar os cargos que faltam da planilha do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "colocar o telefone onde a célula estiver vazia",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "quero completar os e-mails ausentes",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "completa o setor de quem ficou sem",
+    "real": "completar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "as matrículas novas estão sem email, puxar do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "sobrescreve o CEP com o da origem",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "trocar os e-mails errados pelos certos",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "quero que o telefone fique igual ao da outra planilha mesmo se já tiver um",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "substitui as datas de admissão pelas corretas",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "os CPFs estão com erro, troque pelos da base oficial",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "renovar os dados de lotação com a planilha atual",
+    "real": "trocar",
+    "previsto": "fora_do_escopo"
+   },
+   {
+    "pedido": "manda essa planilha por email pro chefe",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "cria uma planilha nova com o modelo de férias",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   }
+  ]
+ },
+ {
+  "versao": "v3 base ampliada",
+  "base_treino": "treino_v3",
+  "n_treino": 450,
+  "n_teste": 66,
+  "alfa": 0.05,
+  "acuracia": 0.9545454545454546,
+  "precisao_macro": 0.955862977602108,
+  "recall_macro": 0.9545454545454546,
+  "f1_macro": 0.9548743246417665,
+  "por_classe": {
+   "completar": {
+    "precisao": 0.9545454545454546,
+    "recall": 0.9545454545454546,
+    "f1": 0.9545454545454546,
+    "suporte": 22
+   },
+   "trocar": {
+    "precisao": 0.9130434782608695,
+    "recall": 0.9545454545454546,
+    "f1": 0.9333333333333332,
+    "suporte": 22
+   },
+   "fora_do_escopo": {
+    "precisao": 1.0,
+    "recall": 0.9545454545454546,
+    "f1": 0.9767441860465117,
+    "suporte": 22
+   }
+  },
+  "matriz": {
+   "completar": {
+    "completar": 21,
+    "trocar": 1,
+    "fora_do_escopo": 0
+   },
+   "trocar": {
+    "completar": 1,
+    "trocar": 21,
+    "fora_do_escopo": 0
+   },
+   "fora_do_escopo": {
+    "completar": 0,
+    "trocar": 1,
+    "fora_do_escopo": 21
+   }
+  },
+  "erros": [
+   {
+    "pedido": "pegar os cargos que faltam da planilha do RH",
+    "real": "completar",
+    "previsto": "trocar"
+   },
+   {
+    "pedido": "renovar os dados de lotação com a planilha atual",
+    "real": "trocar",
+    "previsto": "completar"
+   },
+   {
+    "pedido": "cria uma planilha nova com o modelo de férias",
+    "real": "fora_do_escopo",
+    "previsto": "trocar"
+   }
+  ]
+ }
+]

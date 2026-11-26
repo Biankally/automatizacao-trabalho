@@ -21,7 +21,7 @@ $kit
 3. Linha do destino cuja chave não existe na origem não muda (achado "sem_par").
 4. A coluna-chave e as colunas fora de `colunas` nunca mudam.
 5. `casos_problema`:
-   - `zeros_na_chave: true`: "0048213" e "48213" são a mesma chave. Se for false, são chaves diferentes.
+   - `zeros_na_chave: true`: "00123" e "123" são a mesma chave. Se for false, são chaves diferentes.
    - `ignorar_acento_e_caixa: true`: "JOSÉ" e "jose" são a mesma chave. Se for false, são diferentes.
    - `chave_repetida: "nao_alterar"`: se a mesma chave aparece na origem com valores diferentes,
      a célula do destino não muda. Com "primeiro", vale o primeiro valor da origem.
@@ -42,7 +42,10 @@ $kit
    `casos_problema` desta ficha (por exemplo, zeros na chave só se `zeros_na_chave` for true;
    se for false, teste que "01" e "1" NÃO casam).
 7. Inclua pelo menos um teste em que o destino tem uma célula que NÃO deve mudar.
-8. Invente valores curtos e falsos (ex.: "a@x.com", "1", "Pessoa Um"). Nunca use dados reais.
+8. Não teste que o relatório está vazio: toda célula alterada também vira achado. Leia dos
+   achados só a quantidade e o campo "situacao".
+9. Na origem, chave repetida com um dos valores vazio não é conflito: o valor vazio é ignorado.
+10. Invente valores curtos e falsos (ex.: "a@x.com", "1", "Pessoa Um"). Nunca use dados reais.
 
 # Formato da resposta
 Responda só com um único bloco ```python contendo as funções de teste:

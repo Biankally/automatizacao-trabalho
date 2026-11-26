@@ -1,0 +1,2 @@
+arize-phoenix>=12
+arize-phoenix-otel>=0.10

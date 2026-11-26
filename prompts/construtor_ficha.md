@@ -22,7 +22,7 @@ $amostra
 6. Configure `"casos_problema"` analisando o formato das amostras e o pedido:
    - `"chave_repetida"`: `"nao_alterar"` (padrão seguro) ou `"primeiro"`.
    - `"ignorar_acento_e_caixa"`: `true` se a chave for texto/nome sujeito a variação de acentos ou maiúsculas, senão `false`.
-   - `"zeros_na_chave"`: `true` se as amostras indicarem códigos numéricos com zeros à esquerda (ex.: `"0048213"` e `"48213"`), senão `false`.
+   - `"zeros_na_chave"`: `true` se as amostras indicarem códigos numéricos com zeros à esquerda (ex.: `"00123"` e `"123"`), senão `false`.
 7. Defina `"saida"` com um caminho `.xlsx` dentro de `saida/` (ex.: `"saida/resultado.xlsx"`).
 8. Liste em `"suposicoes"` todas as interpretações assumidas para que o usuário possa revisá-las antes da execução.
 

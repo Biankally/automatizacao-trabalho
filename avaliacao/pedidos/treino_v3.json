@@ -1,0 +1,1802 @@
+[
+[
+"mudar o departamento da planilha de cadastro",
+"trocar"
+],
+[
+"completar o nome social vazio usando a lista atual",
+"completar"
+],
+[
+"completar os campos vazios de a data de admissão pelo cpf",
+"completar"
+],
+[
+"o departamento está errado, corrigir com a base oficial",
+"trocar"
+],
+[
+"troca o setor pelo correto usando a base nova",
+"trocar"
+],
+[
+"conte quantos são os atrasados",
+"fora_do_escopo"
+],
+[
+"preencha a matrícula funcional que falta com os dados da origem",
+"completar"
+],
+[
+"completar o email vazio usando a lista atual",
+"completar"
+],
+[
+"agrupe por mês a planilha",
+"fora_do_escopo"
+],
+[
+"colocar a lotação nas células em branco com o do rh",
+"completar"
+],
+[
+"faça um gráfico de as vendas",
+"fora_do_escopo"
+],
+[
+"imprima os salários",
+"fora_do_escopo"
+],
+[
+"crie um gráfico com as colunas",
+"fora_do_escopo"
+],
+[
+"calcule a média de os atrasados",
+"fora_do_escopo"
+],
+[
+"atualizar a lotação desatualizado conforme a planilha da diretoria",
+"trocar"
+],
+[
+"faça um resumo de os atrasados",
+"fora_do_escopo"
+],
+[
+"troca o telefone pelo correto conforme a planilha da diretoria",
+"trocar"
+],
+[
+"preenche a data de admissão ausente usando a lista atual",
+"completar"
+],
+[
+"corrija o email a partir da outra planilha",
+"trocar"
+],
+[
+"preenche os endereços ausente usando a lista atual",
+"completar"
+],
+[
+"trazer os endereços que falta usando a lista atual",
+"completar"
+],
+[
+"corrigir os emails usando a base nova",
+"trocar"
+],
+[
+"faça um gráfico de os funcionários",
+"fora_do_escopo"
+],
+[
+"apague os setores",
+"fora_do_escopo"
+],
+[
+"deixar os cargos igual pela base antiga",
+"trocar"
+],
+[
+"remova duplicados de as vendas",
+"fora_do_escopo"
+],
+[
+"completa o departamento de quem não tem com os dados da origem",
+"completar"
+],
+[
+"completar os emails vazio com os dados da origem",
+"completar"
+],
+[
+"só completar o cargo que estiver em branco com a base oficial",
+"completar"
+],
+[
+"destaque em vermelho a planilha",
+"fora_do_escopo"
+],
+[
+"adicionar os cargos que está faltando pela base antiga",
+"completar"
+],
+[
+"adicionar o setor que está faltando",
+"completar"
+],
+[
+"completar os campos vazios de o setor usando a lista atual",
+"completar"
+],
+[
+"complete a matrícula funcional em branco conforme a planilha da diretoria",
+"completar"
+],
+[
+"crie uma tabela dinâmica de os salários",
+"fora_do_escopo"
+],
+[
+"corrija a lotação",
+"trocar"
+],
+[
+"crie um gráfico com as notas",
+"fora_do_escopo"
+],
+[
+"destaque em vermelho os atrasados",
+"fora_do_escopo"
+],
+[
+"atualiza o celular mesmo se já tiver usando a base nova",
+"trocar"
+],
+[
+"adicionar o cep que está faltando conforme a planilha da diretoria",
+"completar"
+],
+[
+"formate as cores de os valores",
+"fora_do_escopo"
+],
+[
+"atualize a data de admissão pela matrícula",
+"trocar"
+],
+[
+"faltando os emails, completar usando a lista atual",
+"completar"
+],
+[
+"colocar o departamento nas células em branco com os dados da origem",
+"completar"
+],
+[
+"crie um gráfico com os funcionários",
+"fora_do_escopo"
+],
+[
+"destaque em vermelho as despesas",
+"fora_do_escopo"
+],
+[
+"completar os campos vazios de os cargos pela matrícula",
+"completar"
+],
+[
+"complete o ramal em branco com o do rh",
+"completar"
+],
+[
+"o cep está errado, corrigir usando a lista atual",
+"trocar"
+],
+[
+"quem está sem o e-mail, preencher com a base oficial",
+"completar"
+],
+[
+"renomeie os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"preencher a unidade onde estiver vazio com os dados da origem",
+"completar"
+],
+[
+"substitua a matrícula funcional usando a base nova",
+"trocar"
+],
+[
+"colocar o telefone nas células em branco com o do rh",
+"completar"
+],
+[
+"substituir o celular antigo com a base oficial",
+"trocar"
+],
+[
+"preencha o cargo que falta pela matrícula",
+"completar"
+],
+[
+"só completar o nome social que estiver em branco",
+"completar"
+],
+[
+"troca a matrícula funcional pelo correto a partir da outra planilha",
+"trocar"
+],
+[
+"remova duplicados de os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"preenche o endereço ausente pelo cpf",
+"completar"
+],
+[
+"mudar a lotação da planilha de cadastro",
+"trocar"
+],
+[
+"faltando o setor, completar usando a base nova",
+"completar"
+],
+[
+"só completar a lotação que estiver em branco conforme a planilha da diretoria",
+"completar"
+],
+[
+"atualizar o ramal desatualizado pela base antiga",
+"trocar"
+],
+[
+"só completar o ramal que estiver em branco da planilha de cadastro",
+"completar"
+],
+[
+"corrigir o cpf pelo cpf",
+"trocar"
+],
+[
+"quem está sem o e-mail, preencher da planilha de cadastro",
+"completar"
+],
+[
+"puxar o cep para as linhas sem o cep pelo cpf",
+"completar"
+],
+[
+"faça um gráfico de os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"atualize o cargo pelo cpf",
+"trocar"
+],
+[
+"envie por email os funcionários",
+"fora_do_escopo"
+],
+[
+"imprima os setores",
+"fora_do_escopo"
+],
+[
+"quem está sem os endereços, preencher com o do rh",
+"completar"
+],
+[
+"calcule a média de os salários",
+"fora_do_escopo"
+],
+[
+"some as colunas",
+"fora_do_escopo"
+],
+[
+"sobrescrever o setor pela planilha do rh",
+"trocar"
+],
+[
+"faltando o departamento, completar usando a base nova",
+"completar"
+],
+[
+"completar o endereço vazio pela planilha do rh",
+"completar"
+],
+[
+"faça um gráfico de a planilha",
+"fora_do_escopo"
+],
+[
+"corrigir os endereços",
+"trocar"
+],
+[
+"faça um gráfico de os salários",
+"fora_do_escopo"
+],
+[
+"crie uma tabela dinâmica de os setores",
+"fora_do_escopo"
+],
+[
+"agrupe por mês os salários",
+"fora_do_escopo"
+],
+[
+"ordene as vendas",
+"fora_do_escopo"
+],
+[
+"filtre os nomes",
+"fora_do_escopo"
+],
+[
+"trocar os emails errado com o do rh",
+"trocar"
+],
+[
+"calcule a média de a planilha",
+"fora_do_escopo"
+],
+[
+"gere um pdf de os valores",
+"fora_do_escopo"
+],
+[
+"trazer o nome social que falta conforme a planilha da diretoria",
+"completar"
+],
+[
+"exclua as despesas",
+"fora_do_escopo"
+],
+[
+"completa os cargos de quem não tem da planilha de cadastro",
+"completar"
+],
+[
+"atualizar os endereços desatualizado pelo cpf",
+"trocar"
+],
+[
+"só completar os telefones que estiver em branco conforme a planilha da diretoria",
+"completar"
+],
+[
+"completar os telefones vazio",
+"completar"
+],
+[
+"troca o endereço pelo correto pela base antiga",
+"trocar"
+],
+[
+"faça um gráfico de as notas",
+"fora_do_escopo"
+],
+[
+"puxar a unidade para as linhas sem a unidade a partir da outra planilha",
+"completar"
+],
+[
+"filtre os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"troca o nome social pelo correto pela planilha do rh",
+"trocar"
+],
+[
+"sobrescrever a data de admissão a partir da outra planilha",
+"trocar"
+],
+[
+"preencher o setor onde estiver vazio com a base oficial",
+"completar"
+],
+[
+"trocar o email errado com a base oficial",
+"trocar"
+],
+[
+"troca o celular pelo correto com o do rh",
+"trocar"
+],
+[
+"junte as abas de a planilha",
+"fora_do_escopo"
+],
+[
+"troca a matrícula funcional pelo correto pela base antiga",
+"trocar"
+],
+[
+"só completar os cargos que estiver em branco a partir da outra planilha",
+"completar"
+],
+[
+"mudar o cep usando a base nova",
+"trocar"
+],
+[
+"substitua o cargo com a base oficial",
+"trocar"
+],
+[
+"imprima os atrasados",
+"fora_do_escopo"
+],
+[
+"conte quantos são a planilha",
+"fora_do_escopo"
+],
+[
+"preencher o e-mail onde estiver vazio pela planilha do rh",
+"completar"
+],
+[
+"só completar o ramal que estiver em branco pelo cpf",
+"completar"
+],
+[
+"completar os campos vazios de o cep pela planilha do rh",
+"completar"
+],
+[
+"alinhar o cep com o do rh",
+"trocar"
+],
+[
+"formate as cores de os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"colocar a data de admissão nas células em branco",
+"completar"
+],
+[
+"proteja com senha os salários",
+"fora_do_escopo"
+],
+[
+"trocar a data de admissão errado pela base antiga",
+"trocar"
+],
+[
+"corrigir o cargo com o do rh",
+"trocar"
+],
+[
+"troca o nome social pelo correto usando a lista atual",
+"trocar"
+],
+[
+"remova duplicados de a planilha",
+"fora_do_escopo"
+],
+[
+"exclua os setores",
+"fora_do_escopo"
+],
+[
+"alinhar a data de admissão pelo cpf",
+"trocar"
+],
+[
+"traduza os atrasados",
+"fora_do_escopo"
+],
+[
+"completar a data de admissão vazio pelo cpf",
+"completar"
+],
+[
+"puxar a data de admissão para as linhas sem a data de admissão a partir da outra planilha",
+"completar"
+],
+[
+"adicionar o departamento que está faltando a partir da outra planilha",
+"completar"
+],
+[
+"atualizar o email desatualizado da planilha de cadastro",
+"trocar"
+],
+[
+"faça um resumo de as colunas",
+"fora_do_escopo"
+],
+[
+"proteja com senha as despesas",
+"fora_do_escopo"
+],
+[
+"agrupe por mês as notas",
+"fora_do_escopo"
+],
+[
+"corrija os cargos pela base antiga",
+"trocar"
+],
+[
+"preencha o endereço que falta pela planilha do rh",
+"completar"
+],
+[
+"colocar o endereço nas células em branco pela matrícula",
+"completar"
+],
+[
+"envie por email os salários",
+"fora_do_escopo"
+],
+[
+"alinhar o cep pela matrícula",
+"trocar"
+],
+[
+"deixar o nome social igual pela matrícula",
+"trocar"
+],
+[
+"deixar a unidade igual da planilha de cadastro",
+"trocar"
+],
+[
+"ordene a planilha",
+"fora_do_escopo"
+],
+[
+"crie uma tabela dinâmica de as vendas",
+"fora_do_escopo"
+],
+[
+"imprima os valores",
+"fora_do_escopo"
+],
+[
+"renomeie os funcionários",
+"fora_do_escopo"
+],
+[
+"envie por email os setores",
+"fora_do_escopo"
+],
+[
+"puxar o telefone para as linhas sem o telefone a partir da outra planilha",
+"completar"
+],
+[
+"adicionar os emails que está faltando a partir da outra planilha",
+"completar"
+],
+[
+"formate as cores de os salários",
+"fora_do_escopo"
+],
+[
+"preenche a lotação ausente pela planilha do rh",
+"completar"
+],
+[
+"atualize os telefones",
+"trocar"
+],
+[
+"alinhar os endereços usando a lista atual",
+"trocar"
+],
+[
+"destaque em vermelho os salários",
+"fora_do_escopo"
+],
+[
+"preencha os cargos que falta pelo cpf",
+"completar"
+],
+[
+"substituir o cargo antigo pela matrícula",
+"trocar"
+],
+[
+"filtre as colunas",
+"fora_do_escopo"
+],
+[
+"completa a unidade de quem não tem conforme a planilha da diretoria",
+"completar"
+],
+[
+"substituir o cargo antigo da planilha de cadastro",
+"trocar"
+],
+[
+"crie uma tabela dinâmica de os nomes",
+"fora_do_escopo"
+],
+[
+"atualize a data de admissão pela base antiga",
+"trocar"
+],
+[
+"puxar o telefone para as linhas sem o telefone pela matrícula",
+"completar"
+],
+[
+"faça um resumo de os funcionários",
+"fora_do_escopo"
+],
+[
+"complete o nome social em branco a partir da outra planilha",
+"completar"
+],
+[
+"crie um gráfico com as vendas",
+"fora_do_escopo"
+],
+[
+"puxar o cargo para as linhas sem o cargo com os dados da origem",
+"completar"
+],
+[
+"completa o cpf de quem não tem usando a lista atual",
+"completar"
+],
+[
+"remova duplicados de os salários",
+"fora_do_escopo"
+],
+[
+"exclua as notas",
+"fora_do_escopo"
+],
+[
+"corrigir a lotação pela matrícula",
+"trocar"
+],
+[
+"corrija o endereço usando a lista atual",
+"trocar"
+],
+[
+"só completar o cpf que estiver em branco pela matrícula",
+"completar"
+],
+[
+"faça um resumo de as vendas",
+"fora_do_escopo"
+],
+[
+"envie por email as despesas",
+"fora_do_escopo"
+],
+[
+"adicionar os telefones que está faltando pela planilha do rh",
+"completar"
+],
+[
+"corrija os telefones pela planilha do rh",
+"trocar"
+],
+[
+"gere um pdf de as notas",
+"fora_do_escopo"
+],
+[
+"completar os campos vazios de o departamento pela base antiga",
+"completar"
+],
+[
+"agrupe por mês os nomes",
+"fora_do_escopo"
+],
+[
+"preencher a unidade onde estiver vazio da planilha de cadastro",
+"completar"
+],
+[
+"corrigir o cep da planilha de cadastro",
+"trocar"
+],
+[
+"deixar os telefones igual usando a base nova",
+"trocar"
+],
+[
+"o setor está errado, corrigir com o do rh",
+"trocar"
+],
+[
+"preencha o departamento que falta com o do rh",
+"completar"
+],
+[
+"ordene as despesas",
+"fora_do_escopo"
+],
+[
+"trazer a lotação que falta usando a lista atual",
+"completar"
+],
+[
+"adicionar o e-mail que está faltando usando a lista atual",
+"completar"
+],
+[
+"completa os telefones de quem não tem com a base oficial",
+"completar"
+],
+[
+"adicionar o e-mail que está faltando com os dados da origem",
+"completar"
+],
+[
+"adicionar a unidade que está faltando com o do rh",
+"completar"
+],
+[
+"exclua os nomes",
+"fora_do_escopo"
+],
+[
+"puxar a lotação para as linhas sem a lotação usando a lista atual",
+"completar"
+],
+[
+"filtre os setores",
+"fora_do_escopo"
+],
+[
+"apague os nomes",
+"fora_do_escopo"
+],
+[
+"colocar o setor nas células em branco conforme a planilha da diretoria",
+"completar"
+],
+[
+"calcule a média de as notas",
+"fora_do_escopo"
+],
+[
+"puxar o cep para as linhas sem o cep com a base oficial",
+"completar"
+],
+[
+"atualizar o celular desatualizado com o do rh",
+"trocar"
+],
+[
+"conte quantos são os setores",
+"fora_do_escopo"
+],
+[
+"adicionar o email que está faltando usando a lista atual",
+"completar"
+],
+[
+"apague a planilha",
+"fora_do_escopo"
+],
+[
+"substituir os emails antigo a partir da outra planilha",
+"trocar"
+],
+[
+"completa a matrícula funcional de quem não tem pela base antiga",
+"completar"
+],
+[
+"quem está sem o setor, preencher",
+"completar"
+],
+[
+"deixar o nome social igual com o do rh",
+"trocar"
+],
+[
+"proteja com senha a planilha",
+"fora_do_escopo"
+],
+[
+"corrigir o endereço com os dados da origem",
+"trocar"
+],
+[
+"conte quantos são os funcionários",
+"fora_do_escopo"
+],
+[
+"crie uma tabela dinâmica de os valores",
+"fora_do_escopo"
+],
+[
+"exclua os valores",
+"fora_do_escopo"
+],
+[
+"preenche o cpf ausente pela matrícula",
+"completar"
+],
+[
+"trazer os endereços que falta pela planilha do rh",
+"completar"
+],
+[
+"quem está sem os emails, preencher pela matrícula",
+"completar"
+],
+[
+"destaque em vermelho as colunas",
+"fora_do_escopo"
+],
+[
+"preencha os emails que falta usando a lista atual",
+"completar"
+],
+[
+"substitua os telefones pela planilha do rh",
+"trocar"
+],
+[
+"formate as cores de os funcionários",
+"fora_do_escopo"
+],
+[
+"preenche o ramal ausente com o do rh",
+"completar"
+],
+[
+"junte as abas de os atrasados",
+"fora_do_escopo"
+],
+[
+"conte quantos são as despesas",
+"fora_do_escopo"
+],
+[
+"troca o endereço pelo correto usando a base nova",
+"trocar"
+],
+[
+"deixar o setor igual da planilha de cadastro",
+"trocar"
+],
+[
+"puxar o ramal para as linhas sem o ramal usando a lista atual",
+"completar"
+],
+[
+"faltando o cargo, completar da planilha de cadastro",
+"completar"
+],
+[
+"complete a matrícula funcional em branco usando a base nova",
+"completar"
+],
+[
+"preencher a unidade onde estiver vazio usando a base nova",
+"completar"
+],
+[
+"junte as abas de os funcionários",
+"fora_do_escopo"
+],
+[
+"trocar o cargo errado usando a lista atual",
+"trocar"
+],
+[
+"some as vendas",
+"fora_do_escopo"
+],
+[
+"traduza os salários",
+"fora_do_escopo"
+],
+[
+"complete a data de admissão em branco com a base oficial",
+"completar"
+],
+[
+"traduza as despesas",
+"fora_do_escopo"
+],
+[
+"complete o nome social em branco pelo cpf",
+"completar"
+],
+[
+"mudar o ramal com os dados da origem",
+"trocar"
+],
+[
+"substituir o cep antigo pela planilha do rh",
+"trocar"
+],
+[
+"ordene as colunas",
+"fora_do_escopo"
+],
+[
+"a unidade está errado, corrigir com a base oficial",
+"trocar"
+],
+[
+"completar os campos vazios de o email pela planilha do rh",
+"completar"
+],
+[
+"preencher o nome social onde estiver vazio com a base oficial",
+"completar"
+],
+[
+"agrupe por mês as despesas",
+"fora_do_escopo"
+],
+[
+"puxar os cargos para as linhas sem os cargos pelo cpf",
+"completar"
+],
+[
+"envie por email os valores",
+"fora_do_escopo"
+],
+[
+"calcule a média de os funcionários",
+"fora_do_escopo"
+],
+[
+"adicionar a matrícula funcional que está faltando pela planilha do rh",
+"completar"
+],
+[
+"imprima as colunas",
+"fora_do_escopo"
+],
+[
+"calcule a média de os setores",
+"fora_do_escopo"
+],
+[
+"envie por email os nomes",
+"fora_do_escopo"
+],
+[
+"filtre os valores",
+"fora_do_escopo"
+],
+[
+"atualiza os endereços mesmo se já tiver com a base oficial",
+"trocar"
+],
+[
+"renomeie as despesas",
+"fora_do_escopo"
+],
+[
+"atualize o ramal pela base antiga",
+"trocar"
+],
+[
+"colocar o celular nas células em branco pela base antiga",
+"completar"
+],
+[
+"puxar a lotação para as linhas sem a lotação a partir da outra planilha",
+"completar"
+],
+[
+"preencher a data de admissão onde estiver vazio conforme a planilha da diretoria",
+"completar"
+],
+[
+"destaque em vermelho os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"puxar o telefone para as linhas sem o telefone usando a base nova",
+"completar"
+],
+[
+"preencha o cpf que falta com os dados da origem",
+"completar"
+],
+[
+"atualiza os emails mesmo se já tiver a partir da outra planilha",
+"trocar"
+],
+[
+"substitua o telefone",
+"trocar"
+],
+[
+"imprima as despesas",
+"fora_do_escopo"
+],
+[
+"atualiza o cep mesmo se já tiver com o do rh",
+"trocar"
+],
+[
+"atualizar a matrícula funcional desatualizado usando a base nova",
+"trocar"
+],
+[
+"adicionar o email que está faltando da planilha de cadastro",
+"completar"
+],
+[
+"envie por email as colunas",
+"fora_do_escopo"
+],
+[
+"atualiza o cpf mesmo se já tiver da planilha de cadastro",
+"trocar"
+],
+[
+"colocar a matrícula funcional nas células em branco pela matrícula",
+"completar"
+],
+[
+"o ramal está errado, corrigir pela base antiga",
+"trocar"
+],
+[
+"formate as cores de os nomes",
+"fora_do_escopo"
+],
+[
+"sobrescrever a lotação com a base oficial",
+"trocar"
+],
+[
+"crie uma tabela dinâmica de as notas",
+"fora_do_escopo"
+],
+[
+"puxar a unidade para as linhas sem a unidade com os dados da origem",
+"completar"
+],
+[
+"trazer o cep que falta a partir da outra planilha",
+"completar"
+],
+[
+"completa o nome social de quem não tem com o do rh",
+"completar"
+],
+[
+"atualize o e-mail da planilha de cadastro",
+"trocar"
+],
+[
+"preencher os endereços onde estiver vazio pela planilha do rh",
+"completar"
+],
+[
+"atualiza o endereço mesmo se já tiver conforme a planilha da diretoria",
+"trocar"
+],
+[
+"só completar os endereços que estiver em branco pela matrícula",
+"completar"
+],
+[
+"corrija o telefone pela planilha do rh",
+"trocar"
+],
+[
+"corrija o nome social",
+"trocar"
+],
+[
+"preencher os cargos onde estiver vazio usando a base nova",
+"completar"
+],
+[
+"alinhar o e-mail pelo cpf",
+"trocar"
+],
+[
+"preencha a lotação que falta pela matrícula",
+"completar"
+],
+[
+"preencha o telefone que falta a partir da outra planilha",
+"completar"
+],
+[
+"atualize o cep conforme a planilha da diretoria",
+"trocar"
+],
+[
+"preenche a matrícula funcional ausente",
+"completar"
+],
+[
+"mudar o telefone pelo cpf",
+"trocar"
+],
+[
+"atualize o endereço pelo cpf",
+"trocar"
+],
+[
+"exclua os funcionários",
+"fora_do_escopo"
+],
+[
+"apague as despesas",
+"fora_do_escopo"
+],
+[
+"some a planilha",
+"fora_do_escopo"
+],
+[
+"puxar o email para as linhas sem o email",
+"completar"
+],
+[
+"substituir o cep antigo pela base antiga",
+"trocar"
+],
+[
+"mudar o setor pela matrícula",
+"trocar"
+],
+[
+"preenche o cep ausente pela base antiga",
+"completar"
+],
+[
+"traduza os setores",
+"fora_do_escopo"
+],
+[
+"junte as abas de os nomes",
+"fora_do_escopo"
+],
+[
+"quem está sem o e-mail, preencher pelo cpf",
+"completar"
+],
+[
+"substitua os endereços com a base oficial",
+"trocar"
+],
+[
+"alinhar o cep conforme a planilha da diretoria",
+"trocar"
+],
+[
+"substitua os endereços pelo cpf",
+"trocar"
+],
+[
+"corrija o telefone usando a lista atual",
+"trocar"
+],
+[
+"corrija os cargos usando a base nova",
+"trocar"
+],
+[
+"sobrescrever os endereços com a base oficial",
+"trocar"
+],
+[
+"puxar o endereço para as linhas sem o endereço pelo cpf",
+"completar"
+],
+[
+"exclua as vendas",
+"fora_do_escopo"
+],
+[
+"completar os campos vazios de os emails com os dados da origem",
+"completar"
+],
+[
+"renomeie a planilha",
+"fora_do_escopo"
+],
+[
+"calcule a média de as vendas",
+"fora_do_escopo"
+],
+[
+"ordene os valores",
+"fora_do_escopo"
+],
+[
+"faça um gráfico de os atrasados",
+"fora_do_escopo"
+],
+[
+"quem está sem o email, preencher pela matrícula",
+"completar"
+],
+[
+"atualiza os endereços mesmo se já tiver da planilha de cadastro",
+"trocar"
+],
+[
+"substitua o departamento a partir da outra planilha",
+"trocar"
+],
+[
+"faça um resumo de a planilha",
+"fora_do_escopo"
+],
+[
+"substituir o nome social antigo com a base oficial",
+"trocar"
+],
+[
+"mudar o e-mail pela base antiga",
+"trocar"
+],
+[
+"imprima as notas",
+"fora_do_escopo"
+],
+[
+"atualizar o email desatualizado usando a lista atual",
+"trocar"
+],
+[
+"crie uma tabela dinâmica de os atrasados",
+"fora_do_escopo"
+],
+[
+"atualiza o ramal mesmo se já tiver usando a base nova",
+"trocar"
+],
+[
+"atualize o nome social usando a base nova",
+"trocar"
+],
+[
+"faça um resumo de os setores",
+"fora_do_escopo"
+],
+[
+"renomeie as colunas",
+"fora_do_escopo"
+],
+[
+"crie uma tabela dinâmica de as colunas",
+"fora_do_escopo"
+],
+[
+"troca o email pelo correto usando a base nova",
+"trocar"
+],
+[
+"mudar o e-mail pela planilha do rh",
+"trocar"
+],
+[
+"preenche o cep ausente com os dados da origem",
+"completar"
+],
+[
+"trazer o celular que falta pela base antiga",
+"completar"
+],
+[
+"complete os telefones em branco a partir da outra planilha",
+"completar"
+],
+[
+"substituir o endereço antigo com a base oficial",
+"trocar"
+],
+[
+"corrigir o cargo com a base oficial",
+"trocar"
+],
+[
+"completar o cargo vazio usando a lista atual",
+"completar"
+],
+[
+"remova duplicados de os setores",
+"fora_do_escopo"
+],
+[
+"crie uma tabela dinâmica de a planilha",
+"fora_do_escopo"
+],
+[
+"preencha o departamento que falta pela base antiga",
+"completar"
+],
+[
+"faltando os emails, completar pela matrícula",
+"completar"
+],
+[
+"calcule a média de os valores",
+"fora_do_escopo"
+],
+[
+"preenche o telefone ausente com o do rh",
+"completar"
+],
+[
+"completar o nome social vazio a partir da outra planilha",
+"completar"
+],
+[
+"alinhar o celular com a base oficial",
+"trocar"
+],
+[
+"adicionar a lotação que está faltando conforme a planilha da diretoria",
+"completar"
+],
+[
+"filtre os funcionários",
+"fora_do_escopo"
+],
+[
+"corrigir o e-mail usando a lista atual",
+"trocar"
+],
+[
+"atualizar a unidade desatualizado com os dados da origem",
+"trocar"
+],
+[
+"atualize o telefone com os dados da origem",
+"trocar"
+],
+[
+"proteja com senha os atrasados",
+"fora_do_escopo"
+],
+[
+"corrija o ramal a partir da outra planilha",
+"trocar"
+],
+[
+"troca o nome social pelo correto conforme a planilha da diretoria",
+"trocar"
+],
+[
+"completar os campos vazios de a unidade com os dados da origem",
+"completar"
+],
+[
+"troca o cpf pelo correto com a base oficial",
+"trocar"
+],
+[
+"preenche o e-mail ausente usando a lista atual",
+"completar"
+],
+[
+"complete a data de admissão em branco pela base antiga",
+"completar"
+],
+[
+"agrupe por mês os funcionários",
+"fora_do_escopo"
+],
+[
+"destaque em vermelho os setores",
+"fora_do_escopo"
+],
+[
+"corrija o cargo com o do rh",
+"trocar"
+],
+[
+"preencha o cpf que falta pela matrícula",
+"completar"
+],
+[
+"colocar os endereços nas células em branco com os dados da origem",
+"completar"
+],
+[
+"corrigir a data de admissão com os dados da origem",
+"trocar"
+],
+[
+"adicionar o setor que está faltando usando a lista atual",
+"completar"
+],
+[
+"trazer o setor que falta usando a lista atual",
+"completar"
+],
+[
+"preencher a matrícula funcional onde estiver vazio com os dados da origem",
+"completar"
+],
+[
+"preenche o celular ausente com a base oficial",
+"completar"
+],
+[
+"calcule a média de as colunas",
+"fora_do_escopo"
+],
+[
+"colocar os cargos nas células em branco conforme a planilha da diretoria",
+"completar"
+],
+[
+"preencher a data de admissão onde estiver vazio com os dados da origem",
+"completar"
+],
+[
+"completar o ramal vazio pela planilha do rh",
+"completar"
+],
+[
+"atualize os endereços pelo cpf",
+"trocar"
+],
+[
+"complete a unidade em branco com a base oficial",
+"completar"
+],
+[
+"gere um pdf de as vendas",
+"fora_do_escopo"
+],
+[
+"troca o setor pelo correto com os dados da origem",
+"trocar"
+],
+[
+"troca o departamento pelo correto pela planilha do rh",
+"trocar"
+],
+[
+"faltando a matrícula funcional, completar com os dados da origem",
+"completar"
+],
+[
+"atualizar o cpf desatualizado a partir da outra planilha",
+"trocar"
+],
+[
+"formate as cores de as despesas",
+"fora_do_escopo"
+],
+[
+"deixar os emails igual conforme a planilha da diretoria",
+"trocar"
+],
+[
+"complete os emails em branco pela planilha do rh",
+"completar"
+],
+[
+"traduza os nomes",
+"fora_do_escopo"
+],
+[
+"junte as abas de os valores",
+"fora_do_escopo"
+],
+[
+"substituir o e-mail antigo conforme a planilha da diretoria",
+"trocar"
+],
+[
+"atualize o endereço pela planilha do rh",
+"trocar"
+],
+[
+"atualize os emails com a base oficial",
+"trocar"
+],
+[
+"trocar os emails errado pelo cpf",
+"trocar"
+],
+[
+"atualize o e-mail pela matrícula",
+"trocar"
+],
+[
+"conte quantos são as notas",
+"fora_do_escopo"
+],
+[
+"gere um pdf de os funcionários",
+"fora_do_escopo"
+],
+[
+"corrija o e-mail usando a base nova",
+"trocar"
+],
+[
+"faça um resumo de os valores",
+"fora_do_escopo"
+],
+[
+"completar os campos vazios de o setor com a base oficial",
+"completar"
+],
+[
+"quem está sem o endereço, preencher usando a base nova",
+"completar"
+],
+[
+"some os atrasados",
+"fora_do_escopo"
+],
+[
+"atualiza a matrícula funcional mesmo se já tiver com o do rh",
+"trocar"
+],
+[
+"corrigir a matrícula funcional pela matrícula",
+"trocar"
+],
+[
+"preencher os cargos onde estiver vazio pelo cpf",
+"completar"
+],
+[
+"crie um gráfico com os nomes",
+"fora_do_escopo"
+],
+[
+"agrupe por mês os valores",
+"fora_do_escopo"
+],
+[
+"corrija os cargos usando a lista atual",
+"trocar"
+],
+[
+"remova duplicados de os funcionários",
+"fora_do_escopo"
+],
+[
+"substituir o ramal antigo usando a lista atual",
+"trocar"
+],
+[
+"completa o endereço de quem não tem pela planilha do rh",
+"completar"
+],
+[
+"corrigir os endereços com os dados da origem",
+"trocar"
+],
+[
+"ordene os setores",
+"fora_do_escopo"
+],
+[
+"crie um gráfico com a planilha",
+"fora_do_escopo"
+],
+[
+"conte quantos são os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"completa a unidade de quem não tem com o do rh",
+"completar"
+],
+[
+"substitua os cargos pela base antiga",
+"trocar"
+],
+[
+"trocar o nome social errado pela base antiga",
+"trocar"
+],
+[
+"gere um pdf de as despesas",
+"fora_do_escopo"
+],
+[
+"junte as abas de as colunas",
+"fora_do_escopo"
+],
+[
+"mudar o celular a partir da outra planilha",
+"trocar"
+],
+[
+"deixar o endereço igual da planilha de cadastro",
+"trocar"
+],
+[
+"traduza as colunas",
+"fora_do_escopo"
+],
+[
+"some os setores",
+"fora_do_escopo"
+],
+[
+"troca o cargo pelo correto pela matrícula",
+"trocar"
+],
+[
+"troca o cpf pelo correto",
+"trocar"
+],
+[
+"conte quantos são as colunas",
+"fora_do_escopo"
+],
+[
+"alinhar a matrícula funcional com o do rh",
+"trocar"
+],
+[
+"agrupe por mês as colunas",
+"fora_do_escopo"
+],
+[
+"corrija a matrícula funcional com a base oficial",
+"trocar"
+],
+[
+"filtre a planilha",
+"fora_do_escopo"
+],
+[
+"deixar o cargo igual usando a lista atual",
+"trocar"
+],
+[
+"gere um pdf de os nomes",
+"fora_do_escopo"
+],
+[
+"atualizar a matrícula funcional desatualizado da planilha de cadastro",
+"trocar"
+],
+[
+"trocar o nome social errado",
+"trocar"
+],
+[
+"quem está sem o endereço, preencher da planilha de cadastro",
+"completar"
+],
+[
+"apague os pedidos do mês",
+"fora_do_escopo"
+],
+[
+"junte as abas de os setores",
+"fora_do_escopo"
+],
+[
+"a lotação está errado, corrigir da planilha de cadastro",
+"trocar"
+],
+[
+"atualize o telefone usando a lista atual",
+"trocar"
+],
+[
+"substituir o cpf antigo pela matrícula",
+"trocar"
+],
+[
+"sobrescrever os endereços usando a base nova",
+"trocar"
+],
+[
+"alinhar a data de admissão pela matrícula",
+"trocar"
+],
+[
+"traduza as vendas",
+"fora_do_escopo"
+],
+[
+"substituir o cpf antigo pela base antiga",
+"trocar"
+],
+[
+"preencher a matrícula funcional onde estiver vazio com o do rh",
+"completar"
+],
+[
+"a data de admissão está errado, corrigir usando a base nova",
+"trocar"
+],
+[
+"quem está sem o cargo, preencher a partir da outra planilha",
+"completar"
+],
+[
+"atualiza os emails mesmo se já tiver",
+"trocar"
+],
+[
+"trazer o cargo que falta da planilha de cadastro",
+"completar"
+],
+[
+"substitua o setor da planilha de cadastro",
+"trocar"
+],
+[
+"apague os valores",
+"fora_do_escopo"
+],
+[
+"sobrescrever o endereço conforme a planilha da diretoria",
+"trocar"
+],
+[
+"sobrescrever a unidade usando a base nova",
+"trocar"
+],
+[
+"troca os emails pelo correto pela base antiga",
+"trocar"
+],
+[
+"trocar a matrícula funcional errado",
+"trocar"
+],
+[
+"adicionar a unidade que está faltando pelo cpf",
+"completar"
+],
+[
+"crie um gráfico com os setores",
+"fora_do_escopo"
+],
+[
+"colocar a data de admissão nas células em branco pela planilha do rh",
+"completar"
+],
+[
+"imprima as vendas",
+"fora_do_escopo"
+],
+[
+"substitua o cargo usando a lista atual",
+"trocar"
+],
+[
+"conte quantos são os nomes",
+"fora_do_escopo"
+],
+[
+"preencher os cargos onde estiver vazio pela planilha do rh",
+"completar"
+],
+[
+"preencher a lotação onde estiver vazio pela planilha do rh",
+"completar"
+],
+[
+"completar os campos vazios de o cep com os dados da origem",
+"completar"
+],
+[
+"sobrescrever o telefone",
+"trocar"
+]
+]
